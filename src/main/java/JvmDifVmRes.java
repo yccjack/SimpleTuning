@@ -2,6 +2,9 @@ import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.vm.VM;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.util.List;
 
 /**
  * @author MysticalYcc
@@ -13,14 +16,21 @@ import java.io.IOException;
  *  vm_2 : -Xms750m -Xms2048m -Xmx2048m
  *  vm_3 : -Xms1024m -Xms2048m -Xmx2048m
  *  vm_4 : -Xms1024m -Xms3096m -Xmx3096m
- *  vm_5 : -Xms250m -Xms1024m -Xmx1024m
+ *  vm_5 : -Xms250m -Xms750m -Xmx750m
  */
 public class JvmDifVmRes {
     public static void main(String[] args) throws IOException {
+        MemoryMXBean memorymbean = ManagementFactory.getMemoryMXBean();
+        System.out.println("堆内存信息: " + memorymbean.getHeapMemoryUsage());
+        System.out.println("方法区内存信息: " + memorymbean.getNonHeapMemoryUsage());
+
+        List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+        System.out.println("\n#####################运行时设置的JVM参数#######################");
+        System.out.println(inputArgs);
         Simulation simulation = new Simulation();
         System.out.println(VM.current().details());
         System.out.println(ClassLayout.parseClass(JvmRunnable.class).toPrintable());
-        //simulation.writeFile();
-        simulation.scene();
+        simulation.writeFile();
+       // simulation.scene();
     }
 }
