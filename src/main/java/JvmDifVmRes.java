@@ -29,10 +29,10 @@ import java.util.List;
 public class JvmDifVmRes {
     public static void main(String[] args) throws IOException {
         //获取当前系统的CPU，内存等参数来适当调整模拟的每个线程的大小
-        MemoryMXBean memorymbean = ManagementFactory.getMemoryMXBean();
-        System.out.println("堆内存信息: " + memorymbean.getHeapMemoryUsage());
-        System.out.println("方法区内存信息: " + memorymbean.getNonHeapMemoryUsage());
-        MemoryUsage heapMemoryUsage = memorymbean.getHeapMemoryUsage();
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        System.out.println("堆内存信息: " + memoryBean.getHeapMemoryUsage());
+        System.out.println("方法区内存信息: " + memoryBean.getNonHeapMemoryUsage());
+        MemoryUsage heapMemoryUsage = memoryBean.getHeapMemoryUsage();
         long max = heapMemoryUsage.getMax();
         if (max / 1024 < 1024) {
             //JvmRunnable.MB_8 = 3*1024*1024;

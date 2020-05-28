@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+
 /**
  * @author MysticalYcc
  * @date 2020/5/25
@@ -61,9 +62,9 @@ public class Simulation {
         }
     }
 
-    static void writeFile() throws IOException {
-        if (!Simulation.fileRead.exists()) {
-            Simulation.fileRead.createNewFile();
+    void writeFile() throws IOException {
+        if (!fileRead.exists()) {
+            fileRead.createNewFile();
         }
         FileOutputStream ops = new FileOutputStream(Simulation.fileRead);
         while (true) {
