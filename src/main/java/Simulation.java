@@ -1,5 +1,3 @@
-import org.openjdk.jol.info.ClassLayout;
-import org.openjdk.jol.vm.VM;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Random;
-
 /**
  * @author MysticalYcc
  * @date 2020/5/25
