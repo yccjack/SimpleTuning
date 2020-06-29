@@ -1,3 +1,5 @@
+package jvm;
+
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.vm.VM;
 
