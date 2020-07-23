@@ -16,4 +16,9 @@ Simple JVM  Tuning simulation
  >*  vm_3 : -Xms1024m -Xms2048m -Xmx2048m
  >*  vm_4 : -Xms1024m -Xms3096m -Xmx3096m
  >*  vm_5 : -Xms250m -Xms1024m -Xmx1024m
+
+  [x] 被动使用字段,导致类没有初始化;
+  
+  [x] Integer类Cache，以为反射修改导致的问题
+  
  
