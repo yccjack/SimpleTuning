@@ -19,6 +19,6 @@ Simple JVM  Tuning simulation
 
   [x] 被动使用字段,导致类没有初始化;
   
-  [x] Integer类Cache，以为反射修改导致的问题
+  [x] Integer类Cache，以及反射修改导致的问题
   
  

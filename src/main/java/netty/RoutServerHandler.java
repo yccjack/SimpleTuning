@@ -24,17 +24,14 @@ public class RoutServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("处理数据");
         ByteBuf readBytes = (ByteBuf) msg;
         byte[] body = new byte[readBytes.readableBytes()];
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("处理数据转发。。。。。");
-                ByteBuf resMsg = allocator.heapBuffer(body.length);
-                resMsg.writeBytes(body);
-                try {
-                    ctx.writeAndFlush(resMsg).sync();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        executorService.execute(() -> {
+            System.out.println("处理数据转发。。。。。");
+            ByteBuf resMsg = allocator.heapBuffer(body.length);
+            resMsg.writeBytes(body);
+            try {
+                ctx.writeAndFlush(resMsg).sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         });
         ReferenceCountUtil.release(readBytes);
