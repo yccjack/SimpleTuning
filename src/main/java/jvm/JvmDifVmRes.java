@@ -27,6 +27,9 @@ import java.util.List;
  * vm_3 : -Xms1024m -Xms2048m -Xmx2048m
  * vm_4 : -Xms1024m -Xms3096m -Xmx3096m
  * vm_5 : -Xms250m -Xms750m -Xmx750m
+ *
+ * x1: 符号引用验证：符号引用验证的目的是确保解析动作能正常执行，如果无法通过验证，则会抛出java.lang.IncompatibleClassChangeError异常的子类, 如java.lang.IllegalAccessError，java.lang.NoSuchFieldError,java.lang.NoSuchMethodError等
+ * 符号引用非必须，所以在编译器反复验证过的情况下，可以使用 -Xverify:none来关闭以增加类加载的速度。
  */
 public class JvmDifVmRes {
     public static void main(String[] args) throws IOException {
