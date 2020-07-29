@@ -17,18 +17,17 @@ Simple JVM  Tuning simulation
  >*  vm_4 : -Xms1024m -Xms3096m -Xmx3096m
  >*  vm_5 : -Xms250m -Xms1024m -Xmx1024m
 
-## 新增诡异的例子
-  [x] 被动使用字段,导致类没有初始化.
-    
-    @ classload.NotInitialization
-     
+# 记录书籍例子以及怪异的面试题
+
+## Integer类
   [x] Integer类Cache，以及反射修改导致的问题.
   
     @ jdkcode.IntegerCode
  ---
  
-  **<font color=red>以下摘抄自 <<深入理解 JAVA虚拟机>></font>**
+ 
  ##  类加载
+  **<font color=red>以下整理自 <<深入理解 JAVA虚拟机>></font>**
 ### **加载**
  > “加载”(Loading)阶段是“类加载”(Class Loading)过程的第一个阶段，在此阶段，虚拟机需要完成以下三件事情：
 
@@ -130,6 +129,23 @@ Simple JVM  Tuning simulation
     3、当初始化一个类的时候，发现其父类没有初始化；
     4、当虚拟机启动时，需用将执行启动的主类(有main()方法的那个类)进行初始化；
     5、当使用动态语言时，如果一个java.lang.invoke.MethodHandle实例最终的解析结果是REF_getStatic、REF_putStatic、REF_invokeStatic句柄时，并且这个句柄对应的类没有初始化。
+
+[x] 被动使用字段,导致类没有初始化. 对于必须初始化的反例
+ 例子： ```@ classload.NotInitialization```
+## 类与类加载器
+> 对于任意一个类，都需要加载它得加载器和这个类本身一同确立其在Java虚拟机中得唯一性，对于类加载器，都拥有一个独立的类名称空间。
+ 两个类相同 包括代表类的Class对象的equals()方法，isAssignableFrom()方法，isInstance()方法返回结果，也包括使用instanceof关键字做对象所属关系判定等情况，如果未注意类加载器影响，在某些情况下可能会产生迷惑性结果。
+>
+ > 例子： classload.ClassLoadDoubleClass
+
+ > 双亲委派
+ > > 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求
+ >  最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求(它搜索范围中没有找到所需要的类)时，子加载器才会尝试加载
+>
+>类加载之间是组合关系，非继承关系。
+>由于 类的相同需要与类加载绑定，所以使用双亲委派加载类可以保证rt.jar,bin/lib下面的类都是由系统自身的加载器加载，而不是用户自定义加载，导致多个相同得类存在。
+
+
 
 
 
