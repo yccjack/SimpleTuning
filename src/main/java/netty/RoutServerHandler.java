@@ -34,6 +34,7 @@ public class RoutServerHandler extends ChannelInboundHandlerAdapter {
                 e.printStackTrace();
             }
         });
+        //simpleAdapter调用了这个方法释放了内存，自己编写的时候需要手动释放。
         ReferenceCountUtil.release(readBytes);
     }
 }
