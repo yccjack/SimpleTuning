@@ -506,3 +506,7 @@ javap提示这段代码需要深度为2的操作数栈和4个Slot的局部变量
 ### 字节码生成与动态代理
 
 **动态代理** -> proxy.DynamicProxy
+
+
+## netty
+在 Netty 中,通过 bootstrap.bind(PORT).sync().channel()方法绑定服务端端口,并不是在调用方的线程(示例为 main 线程)中执行,而是通过 NioEventLoop 线程执行。
