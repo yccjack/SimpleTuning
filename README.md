@@ -1,9 +1,19 @@
 ---
 title: SimpleTuning
 categories: java
-tags: [java] 
+tags: [java]
+date: 2020-07-01 
+update: 2020-09-17
+sticky: 100
+cover: https://mysticalyu.gitee.io/pic/img/chaunkm-china-a1.jpg
 description: Simple JVM  Tuning simulation,一些怪异的面试题，深入java虚拟机部分笔记以及书本部分资料摘抄。
 ---
+
+Simple JVM  Tuning simulation,一些怪异的面试题，深入java虚拟机部分笔记以及书本部分资料摘抄。
+
+
+
+<!-- more -->
 
 
 
@@ -177,7 +187,7 @@ Simple JVM  Tuning simulation
 >
 > > 在编译程序代码的时候，栈帧中需要多大的局部变量表，多深的操作数栈都已经完全确定了。  因此一个栈帧需要分配多少内存，不会受到程序运行期变量数据的影响，而仅仅取决于具体的虚拟机实现。
 
-![123](images/20180121103152636.png)
+![image-20200923083340427](https://gitee.com/MysticalYu/pic/raw/master/hexo/image-20200923083340427.png)
 
 ### 局部变量表
 
@@ -348,9 +358,9 @@ woman say hello
 
    熟悉多态的人对上面的结果不会感到惊讶。下面使用javap命令输出这段代码的字节码。
 
-![img](https://images2015.cnblogs.com/blog/592743/201603/592743-20160322110744917-900187291.png)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/592743-20160322110744917-900187291.png)
 
-![img](https://images2015.cnblogs.com/blog/592743/201603/592743-20160322110827979-422248272.png)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/592743-20160322110827979-422248272.png)
 
 ​    如上所示，方法的调用指令都使用了invokevirtual指令，invokevirtual指令的运行时解析过程大致分为以下几个步骤。
 
@@ -429,7 +439,7 @@ son choose qq
 
    由于动态分派是非常频繁的动作，而且动态分派的方法版本选择过程需要运行时在类的方法元数据中搜索合适的目标方法，因此在虚拟机的实际实现中基于性能的考虑，大部分实现都不会真正的进行如此频繁的搜索。面对这种情况，最常用的“稳定优化”手段就是**为类在方法区中建立一个虚方法表**（vtable，熟悉C++的肯定很熟悉。于此对应的，在invokeinterface执行时也会用到接口方法表---itable），**使用虚方法表索引来代替元数据查找以提高性能。**具体如下图所示：
 
-​    ![img](https://images2015.cnblogs.com/blog/592743/201603/592743-20160322113550886-2079596000.png)
+​    ![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/592743-20160322113550886-2079596000.png)
 
    虚方法表中存放着各个方法的实际入口地址，如果某个方法在子类中没有被重写，那子类的虚方法表里面的地址入口和父类相同方法的入口地址是一致的，都指向父类的实现入口。如果子类重写了这个方法，子类方法表中的地址将会替换为指向子类实现版本的入口地址。如上图所示，Son重写了来自Father的全部方法，因此Son的方法表没有指向Father类型数据的箭头。但是Son和Father都没有重写来自Object的方法，所以他们的方法表中所有从Object继承来的方法都指向了Object的数据类型。
 
@@ -481,32 +491,259 @@ public class CalcTest {
 
 从Java语言的角度来看，这段代码没有任何解释的必要，可以直接使用javap命令看看他的字节码指令，如下所示。
 
-![img](https://img-blog.csdnimg.cn/20190530164012303.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![image-20200923083527958](https://gitee.com/MysticalYu/pic/raw/master/hexo/image-20200923083527958.png)
 
 javap提示这段代码需要深度为2的操作数栈和4个Slot的局部变量空间，根据这些信息画了下面共7张图，用他们来描述上面执行过程中的代码、操作数栈和局部变量表的变化情况。
 
-![img](https://img-blog.csdnimg.cn/20190530164136230.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple2.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164150140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple3.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164202603.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple4.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164217361.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple5.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164226540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple6.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164238642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple7.jpg)
 
-![img](https://img-blog.csdnimg.cn/20190530164246561.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2VuX2pva2Vy,size_16,color_FFFFFF,t_70)
+![img](https://gitee.com/MysticalYu/pic/raw/master/hexo/jvmsimple8.jpg)
 
 上面的执行过程仅仅是一种概念模型，虚拟机最终会对执行过程做一些优化来提高性能，实际运行过程不一定完全符合概念模型的描述......更准确地说，实际情况会和上面的字节码进行优化，例如，在HotSpot虚拟机中，有很多以“fast_”开头的非标准字节码指令用于合并、替换输入的字节码以提升解释执行性能，而即时编译器的优化手段更加花样繁多。
 不过，我们从这段程序的执行中也可以看出栈结构指令集的一般运行过程，整个运算过程的中间变量都以操作数栈的出栈、入栈为信息交换途径，符合我们在前面分析的特点。
 
 
-### 字节码生成与动态代理
 
-**动态代理** -> proxy.DynamicProxy
+##  netty
 
-
-## netty
 在 Netty 中,通过 bootstrap.bind(PORT).sync().channel()方法绑定服务端端口,并不是在调用方的线程(示例为 main 线程)中执行,而是通过 NioEventLoop 线程执行。
+
+![image-20200917223020699](https://gitee.com/MysticalYu/pic/raw/master/hexo/image-20200917223020699.png)
+
+netty异步线程启动并非守护线程，在main方法中执行异步绑定端口后即main方法结束，JVM不会结束，需要等到netty异步线程结束或者调用
+
+```
+worker.shutdownGracefully().sync();
+boss.shutdownGracefully().sync();
+```
+
+结束netty的进程来结束JVM。
+
+### 实际项目中的优化策略
+
+初学者很容易出现上述案例中的错误用法，但在实际项目中，很少通过 main 函数直接调用 Netty 服务端，业务往往是通过某种容器（例如 Tomcat、SpringBoot 等）拉起进程，然后通过容器启动来初始化各种业务资源。因此，不需要担心 Netty 服务端意外退出，启动 Netty 服务端比较容易犯的错误是采用同步的方式调用 Netty，导致初始化 Netty 服务端的业务线程被阻塞，举例如下。
+
+错误用法：这种用法会导致调用方的线程一直被阻塞，直到服务端监听句柄关闭。
+
+◎ 初始化 Netty 服务端。
+
+◎ 同步阻塞等待服务端端口关闭。
+
+◎ 释放 I/O 线程资源和句柄等。
+
+◎ 调用方线程被释放。
+
+正确用法：服务端启动之后注册监听器监听服务端句柄关闭事件，待服务端关闭之后异步调用 shutdownGracefull 释放资源，这样调用方线程就可以快速返回，不会被阻塞。
+
+◎ 初始化 Netty 服务端。
+
+◎ 绑定监听端口。
+
+◎ 向 CloseFuture 注册监听器，在监听器中释放资源。
+
+◎ 调用方线程返回。
+
+很多开发者习惯了写同步代码，在使用 Netty 之后仍然采用同步阻塞的方式来调用 Netty，尽管功能上也可以正常使用，但是违背了 Netty 的异步设计理念，线程执行效率并不高。
+
+当系统退出时，建议通过调用 EventLoopGroup 的 shutdownGracefully 来完成内存队列中积压消息的处理、链路的关闭和 EventLoop 线程的退出，以实现停机不中断业务（备注：单靠 Netty 框架实际上无法 100% 保证，需要应用配合来实现）。
+
+## 操作系统
+
+### 复杂的CPU与单纯的内存
+
+首先，我们澄清几个容易让人混淆的CPU术语。
+
+>- Socket或者Processor：指一个屋里CPU芯片，盒装的或者散装的，上面有很多针脚，直接安装在主板上。
+>- Core：指Socket里封装的一个CPU核心，每个Core都是完全独立的计算单元，我们平时说的4核CPU，就是指一个Socket(Processor)里封装了4个Core。
+>- HT超线程：目前Intel与AMD的Processor大多支持在一个Core里并行执行两个线程，此时在操作系统看来就相当于两个逻辑CPU(Logical Processor),在大多数情况下，我们在程序里提到CPU这个概念时，就是指一个Logical Processor。
+
+&nbsp; &nbsp; 然后，我们先从第一个非常简单的问题开始：CPU可以直接操作内存吗？可能99%的程序员会不假思索的回答：「肯定的，不然程序怎么跑。」如果理性地分析一下，你会发现这个回答有问题：CPU与内存条是独立的两个硬件，而且CPU上也没有插槽和连线可以让内存条挂上去，也就是说，CPU并不能直接访问内存条，而是要通过主办上的其他硬件(接口)来间接访问内存条。
+
+&nbsp; &nbsp;第二个问题：CPU的运算速度与内存条的访问速度在回见的差距究竟有多大？这个差距跟王健林「先挣它个一个亿的」小目标和「普通人有车有房」的宏大目标之间的差距相比，是更大还是更小呢？答案是：「差不多」。通常来说，CPU的运算速度与内存访问速度之间的差距不过是100倍，假如有100万RMB就可以有有房(贷)有车(贷)了没那么其100倍就刚好是一亿RMB。
+
+&nbsp; &nbsp;既然CPU的速度与内存的速度还是存在高度两个数量级的巨大鸿沟，所有它们注定不能「幸福地在一起」，于是CPU的亲密伴侣Cache闪亮登场。与来自DRAM家族的内存(Memory)出身不同，Cache来自ASRAM家族。DRAM与SRAM最简单的区别是后者特别快，容量特别小，电路结构非常复杂，造假特别高。
+
+&nbsp; &nbsp;造成Cache与内存之间巨大性能差距的主要原因是工作原理和结构不同，如下所述。
+
+>- DRAM存储一个数据只需要一个电容加一个晶体管，SRAM则需要6个晶体管。由于DRAM的数据其实是保存在电容里的，所以每次读写过程中的充放电环节也导致了DRAM读写数据有一个延迟的问题，这个延迟通常为十几到几十ns。
+>- 内存可以看做一个二维数据，每个存储单元都有其行地址和列地址。
+>  由于SRAM的容量很小，所以存储单元的地址(行与列)比较短，可以一次性传输到SRAM中；而DRAM则需要分别传送行与列的地址。
+>- SRAM的频率基本与CPU的频率保持一致；而DRAM的频率知道DDR4以后才开始接近CPU的频率。
+
+&nbsp; &nbsp;Cache是被集成到CPU内部的一个存储单元，一级Cache(L1 Cache)通常只有32~64KB的容量，这个容量远远不能满足CPU大量、告诉存取的需求。此外，由于存储性能的答复提升往往伴随着价格的同步飙升，所以出于对整体成本的控制，现实中往往采用金字塔形的多级Cache体系来实现最佳缓存效果，于是出现了二级Cache(L2 Cache)及三级Cache(L3 Cache)，每一级Cache都牺牲了部分性能指标来换取更大的容量，目的是缓存更多的热点数据。以Intel家族 Intel Sandy Bridge架构的CPU为例，其L1 Cache容量为64KB，访问速度为1ns左右；L2 Cache容量扩大4倍，达到256KB，访问速度则降低到3ns左右；L3 Cache的容量则扩大512倍，达到32MB，访问速度也下降到12ns左右，即使如此，也比访问驻村的100ns(40ns+65ns)快一个数量级。此外，L3 Cache是被一个Socket上的所有CPU Core共享的，其实最早的L3 Cache被应用在AMD发布的K6-III处理器上，当时的L3 Cache受限于制造工艺，并没有被集成到CPU内部，而是集成到主板上。
+
+&nbsp; &nbsp;从Intel Sandy Bridge CPU架构图中可以看出，CPU如果要访问内存中的数据，则要经过L1、L2、L3这三道关卡后才能抵达目的地，这个过程并不是「皇上」(CPU)亲自出马，而是交由3个级别的贵妃(Cache)们层层转发「圣旨」(内部指令)，最红抵达「后宫」(内存).
+
+![1565571049876](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_1.png)
+
+---
+
+### 多核CPU与内存共享的问题
+
+&nbsp; &nbsp;在多核CPU的情况下，如何共享内存？
+
+&nbsp; &nbsp;如果擅长多线程高级编程，那么肯定会毫不犹豫地给出以下伪代码：
+
+```java
+synchronized(memory){
+    doSomething(...);
+}
+```
+
+&nbsp; &nbsp;如果真这个简单，那么这个世界上就不会只剩下两家独大的主流CPU制造商了，而且可怜的AMD一直被Intel「吊打」。
+
+&nbsp; &nbsp;多核CPU共享内存的问题也被称为Cache一致性问题，简单地说，就是多个CPU核心所看到的Cache数据应该是一直的，在某个数据被某个CPU写入自己的Cache(L1 Cache)以后，其他CPU都应该能看到相同的Cache数据；如果自己的Cache中有旧数据，则抛弃旧数据。考虑到每个CPU有自己内存独占的Cache，所以这个问题与分布式Cache保持同步的问题是同一类问题。来自Intel的MESI协议是目前业界公认的Cache一致性问题的最佳方案，大多数SMP架构都采用这一方案，虽然该协议是一个CPU内部的协议，但由于它对我们理解内存模型及解决分布式系统的数据一致性问题有重要的参考价值，所以在这对其进行简单介绍。
+
+&nbsp; &nbsp;Cache Line，如果有印象的话，则你会发现I/O操作从来不以字节为单位，而是以「块」为单位，这里有两个原因：首先，因为I/O操作比较慢，所以读一个字节与一个读连续N个字节所花费的时间基本相同；其次，数据访问往往具有空间连续性地特征，即我们通常会访问空间上连续的一些数据。举个例子，访问数组时通常会循环遍历，比如查找某个值或者进行比较等，如果把数组中连续的几个字节都读到内存中，那么CPU的处理速度会提升几倍。对于CPU来说，由于Memory也是慢速的外部组件，所以针对Memory的读写也采用类似I/O块的方式就不足为奇了。实际上，CPU Cache里的最小存储单元就是Cache Line，Intel CPU的一个Cache Line存储64个字节，每一级Cache都被划分为很多组Cache Line，典型的情况是4条Cache Line为一组，当Cache从Memory中加载数据时，一次加载一条Cache Line的数据。下图是Cache的结构。
+
+![1565572262318](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_2.png)
+
+&nbsp; &nbsp;每个Cache Line的头部有两个Bit来表示自身的状态，总共4种状态。
+
+> - M（Modified）：修改状态，其他CPU上没有数据的副本，并且在本CPU上被修改过，与存储器中的数据不一致，最终必然会引发系统总线的写指令，将Cache Line的数据写回到Memory中。
+> - E(Exclusive)：独占状态，表示当前Cache Line中包含的数据与Memory中的数据一致，此外，其他CPU中没有数据的副本。
+> - S（Shared）：共享状态，表示Cache Line中包含的数据与Memory中的数据一致，而且在当前CPU和至少在其他某个CPU中有副本。
+> - I(Invalid)：无效状态，当前Cache Line中没有有效数据或该Cache Line的数据已经失效，不能再用，当Cache要加载新数据时，优先选择此状态的Cache Line，此外，Cache Line的初始状态也是I状态。
+
+&nbsp; &nbsp;MESI协议是用Cache Line的上述4种状态命名的，对Cache的读写操作引发了Cache Line的状态变化，因而可以理解为一种状态机模型。但MESI的复杂和独特之处在于状态的两种视角：一种是当前读写操作(Local Read/Write)所在CPU看到的自身的Cache Line状态及其他CPU上对应的Cache Line状态；另一种是一个CPU上的Cache Line状态的变迁会导致其他CPU上对应的Cache Line的状态变迁。如下所示为MESI协议的状态图。
+
+![1565573021589](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_3.png)
+
+&nbsp; &nbsp;结合状态图，我们深入分析MESI协议的一些实现细节。
+
+&nbsp; &nbsp;（1）某个CPU(CPU A)发起本地读请求(Local Read)，比如读取某个内存地址的变量，如果此时所有的CPU的Cache中都没有加载此内存地址，即此内存地址对应的Cache Line为无效状态(Invalid)，则CPU A中的Cache会发起一个到Memory的内存Load指令，在相应的Cache Line中完成内存加载后，此Cache Line的状态会被标记位Exclusive。接下来，如果其他CPU(CPU B)在总线上也发起对同一个内存地址的读请求，则这个读请求会被CPU A 嗅探到(SNOOP),然后CPU A在内存总线上复制一份Cache Line作为应答，并将自身的Cache Line状态改为Shared，同时CPU B收到来自总线的应答并保存到自己的Cache里，也修改对应的Cache Line 状态为Shared。
+
+&nbsp; &nbsp;(2)某个CPU(CPU A)发起本地写请求(Loacl Write),比如对某个内存地址的变量赋值，如果此时多有的CPU的Cache中都没加载此内存地址，即此内存对应的Cache Line为无效状态(Invalid)，则CPU A 中的Cache Line保存了最新的内存变量值后，其祖航太修改为Modified。随后，如果CPU B发起对同一个变量的读操作(Remote Read)，则CPU A在总线嗅探到这个读请求以后，先将Cache Line里修改过的数据回写(Write Back)到Memory中，然后在内存总线上复制一份Cache Line作为应答，最后将自身的Cache Line状态修改为Shared，由此产生的结果是CPU A与CPU B里对应的Cache Line状态都为Shared。
+
+&nbsp; &nbsp;(3)以上面第二条内容为基础，CPU A发起本地写请求并导致自身的Cache Line状态变为Modified，如果此时CPU B 发起同一个内存地址的写请求(Remote Write)，则我们看到的状态图里此时CPU A 的Cache Line状态为Invalid 其原因如下。
+
+&nbsp; &nbsp;CPU B此时发出的是一个特殊的请求——读并且打算修改数据，当CPU A从总线上嗅探到这个请求后，会先阻止此请求并取得总线的控制权( Takes Control of Bus)，随后将Cache Line里修改过的数据回写到Memory中，再将此Cache Line的状态修改为Invalid(这是因为其他CPU要改数据，所以没必要改为Shared)。与此同时，CPU B 发现之前的请求并没有得到响应，于是重新发起一次请求，此时由于所有的CPU的Cache里都没有内存副本了，所以CPU B的Cache就从Memory中加载最新的数据到Cache Line中，随后修改数据，然后改变Cache Line的状态为Modified。
+
+  &nbsp; &nbsp;(4)如果内存中的某个变量被多个CPU加载到各自的Cache中，从而使得变量对应的Cache Line状态为Shared，若此时某个CPU打算对此变量进行写操作，则会导致所有拥有此变量缓存的CPU的Cache Line状态都变为Invalid，这是引发性能下降的一个典型Cache Miss 问题。
+
+  &nbsp; &nbsp;在理解了MESI协议以后，我们明白了一个重要的事实，即存在多个处理器时，对共享变量的修改操作会设计多个CPU之间协调问题及Cache失效问题，这就引发了著名的「Cache伪共享」问题。
+
+   &nbsp; &nbsp;如果要访问的数据不在CPU的运算单元里，则需要从缓存中加载，如果缓存中恰好有此数据而且数据有效，就命中一次(Cache Hit)，反之产生一次Cache Miss ，此时需要从下一级缓存或主存中再次尝试加载。根据之前的分析，如果发生了Cache Miss，则数据的访问性能瞬间下降很多！在我们需要大量加载运算的情况下，数据结构、访问方式及程序运算方面是否符合「缓存友好」的设计，就成为「量变引起质变」得关键性因素了。这也是为什么最近，国外很多大数据领域的专家都热衷于研究设计和采用新一代的数据结构和算法，而其核心之一就是「缓存友好」。
+
+---
+
+### 著名的Cache伪共享问题
+
+&nbsp; &nbsp;Cache伪共享问题是编程中真实存在的一个问题，考虑如下所示的Java Class结构：
+
+```java
+class MyObject{
+    private long a;
+    private long b;
+    private long c;
+}
+```
+
+ &nbsp; &nbsp; 按照java规范,MyObject的对象是在堆内存上分配空间存储的，而且a、b、c三个属性在内存空间上是邻近，如下所示。
+
+|            |              |            |
+| ---------- | ------------ | ---------- |
+| a(8个字节) | b（8个字节） | c(8个字节) |
+
+ &nbsp; &nbsp;我们知道，X86的CPU中Cache Line的长度为64字节，这也就意味着MyObject的3个属性(长度之和为24字节)是完全可能加载在一个Cache Line里的。如此一来，如果我们有两个不同的线程(分别运行在两个CPU上)分别同时独立修改a与b这两个属性，那么这两个CPU上的Cache Line可能出现如下所示的情况，即a与b这两个变量被放入同一个Cache Line里，并且被两个不同的CPU共享。
+
+![1566381303626](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_4.png)
+
+&nbsp; &nbsp;根据上节中MESI协议的相关知识，我们知道，如果Thread 0要对a变量进行修改，则因为CPU 1 上有对应的Cache Line ， 这会导致CPU 1 的Cache Line 无效，从而使得Thread 1 被迫重新从Memory里获取b的内容(b并没有被其他CPU改变，这样做是因为b与a在一个Cache Line里)。同样，如果Thread 1 要对b变量进行修改，则同样导致Thread 0 的Cache Line 失效，不得不重新从Memory里加载a。如此一来，本来是逻辑上无关的两个线程，完全可以在两个不同的CPU上同时执行，但阴差阳错地共享了同一个Cache Line 并相互抢占资源，导致并形成为串行，大大降低了系统的并发性，这就是所谓的Cache伪共享。
+
+&nbsp; &nbsp;解决Cache伪共享问题的方法很简单，将a与b两个变量分到不同的Cache Line里，通常可以用一些无用的字段填充a与b之间的空隙。由于伪共享问题对性能的影响比较大，所以JDK 8 首次提供了正式的普适性的方案，即采用@Contended注解来确保一个Object或者Class里的某个属性与其他属性不在一个Cache Line里，下面的VolatileLong的多个实例之间就不会产生Cache伪共享的问题：
+
+```java
+@Contended
+class VolatileLong{
+    public volatile long value = 0L;
+}
+```
+
+<font color=red> 伪共享的代码例子在代码 jvm.CacheLinePadding中，</font>具体如下：
+
+```java
+import java.util.concurrent.CountDownLatch;
+
+/**
+ * @author ycc
+ * @time 14:43
+ */
+public class CacheLinePadding {
+    private static final long count = 100000000;
+
+
+    /**
+     * 测试缓存行是否存在，
+     * 这里使用InnerNo作为测试缓存行的类，缓存行默认使用64字节，这里一个long是8字节，当注释f1......后，会出现伪共享，证明缓存行的存在。 把注释打开后 耗时与不适用volatile差不多，消除了缓存行的问题，
+     * 进而消除了伪共享问题。
+     */
+    private static class InnerNo{
+       // private long f1,f2,f3,f4,f5,f6,f7;
+        private volatile long s =1;
+        //private long f8,f9,f10,f11,f12,f13,f14;
+    }
+    static  InnerNo[] arr;
+    static  {
+        arr  =new InnerNo[2];
+        arr[0]=new InnerNo();
+        arr[1]=new InnerNo();
+    }
+    public static void main(String[] args) throws InterruptedException {
+         CountDownLatch downLatch = new CountDownLatch(2);
+
+        Thread t1 = new Thread(()->{
+            for (int i = 0; i <count ; i++) {
+                arr[0].s = i;
+            }
+            downLatch.countDown();
+        });
+        Thread t2= new Thread(()->{
+            for (int i = 0; i <count ; i++) {
+                arr[1].s = i;
+            }
+            downLatch.countDown();
+        });
+        long start = System.nanoTime();
+        t1.start();
+        t2.start();
+        downLatch.await();
+        System.out.println("耗时："+(System.nanoTime()-start)/1000000+"s");
+    }
+}
+
+```
+
+
+
+
+
+### 深入理解不一致性内存
+
+&nbsp; &nbsp;MESI协议解决了多核CPU下的Cache一致性问题，因而成为SMP架构的唯一选择。SMP架构近几年迅速在PC领域(X86)发展，一个CPU芯片上集成的CPU核心数量越来越多，到2017年，AMD的ZEN系列处理器就已经达到16核心32线程了。SMP架构是一种平行的结果，所有CPU Core都连接到一个内存总线上，他们平等访问内存，同时整个内存是统一结构、统一寻址的(Uniform Memory Architecture , UMA)。如下所示给出了SMP架构的示意图。
+
+![1566382149967](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_5.png)
+
+
+
+&nbsp; &nbsp;但是，随着CPU核心数量的不断增长，SMP架构也暴露其天生的短板，其根本瓶颈是共享内存总线的宽带无法满足CPU数量的增加，同时，一条「马路」上同行的「车」多了，难免陷入「拥堵模式」。在这种情况下，分布式解决方案应运而生，系统的内存与CPU进行分割并绑定在一起，形成多个独立的子系统，这些子系统之间高速互连，这就是所谓的NUMA（None Uniform Memory Architecture）架构，如下图所示：
+
+![1566382356771](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_6.png)
+
+&nbsp; &nbsp;我们可以认为NUMA架构第1次打破了「大锅饭」的模式，内存不在是一个整体，而是被分割为互相独立的几块，被不同的CPU私有化(Attach到不同的CPU上)。因此，当CPU访问自身私有的内存地址时（Local Access），会很快得到响应，而如果需要访问其他CPU控制的内存数据（Remote Access），则需要通过某种互连通道（Inter-connect通道）访问，响应时间与之前相对变慢。NUMA的主要优点是伸缩性，NUMA的这种体系结构在设计上已经超越了SMP，可以扩展到几百个CPU而不会导致性能的严重下降。
+
+&nbsp; &nbsp;NUMA技术最早出现出现在20世纪80年代，主要运行在一些大中型UNIX系统中，Sequent公司是世界公认的NUMA技术领袖。早在1986年，Sequent公司就率先利用微处理器构建大型系统，开发了基于UNIX的SMP体系结构，开创了业界转入SMP领域的先河。1999年9月，IBM公司收购了Sequent公司，将NUMA技术集成到IBM UNIX阵营中，并推出了能够支持和扩展Intel平台的NUMA-Q系统及方案，为全球大型企业客户适应高速发展的电子商务市场提供了更加多样化、高可扩展性及易于管理的选择，成为NUMA技术的领先开发者与革新者。随后很多老牌UNIX服务器厂商也采用了NUMA技术，例如IBM、Sun、惠普、Unisys、SGI等公司。2000年全球互联网泡沫破灭后，X86+Linux系统开始以低廉的成本侵占UNIX的底盘，AMD率先在其AMD Opteron 系列处理器中的X86 CPU上实现了NUMA架构，Intel也跟进并在Intel Nehalem中实现了NUMA架构（Intel服务器芯片志强E5500以上的CPU和桌面的i3、i5、i7均采用此架构），至此NUMA这个贵族技术开始真正走入平常百姓家。
+
+&nbsp; &nbsp;下面详细分析一下NUMA技术的特点。首先，NUMA架构中引入了一个重要的新名词——Node，一个Node由一个或者多个Socket组成，即物理上的一个或多个CPU芯片组成一个逻辑上的Node。如下所示为来自Dell PowerEdge系统服务器的说明手册中的NUMA的图片，4个Intel Xeon E 5-4600处理器形成4个独立的NUMA Node，由于每个Intel Xeon E 5-4600为8Core，支持双线程，所以每个Node里的Logic CPU数量为16个，占每个Node分配系统总内存1/4，每个Node之间通过Intel QPI（QuickPath Interconnect）技术形成了点到点的全互连处理器系统。
+
+![1566383334597](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_7.png)

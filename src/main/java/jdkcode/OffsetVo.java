@@ -26,6 +26,8 @@ public class OffsetVo {
     public NettyServer nettyServer = new NettyServer();
 
     public static void main(String[] args) throws Exception {
+        syn();
+
         System.out.println(VM.current().details());
         System.out.println(ClassLayout.parseClass(OffsetVo.class).toPrintable());
         System.out.println("=================");
@@ -47,5 +49,20 @@ public class OffsetVo {
         theUnsafeInstance.setAccessible(true);
         // return (Unsafe) theUnsafeInstance.get(null);是等价的
         return (Unsafe) theUnsafeInstance.get(Unsafe.class);
+    }
+
+
+    /**
+     *  对象内存布局，8字节对齐
+     *  锁信息会修改mark word，
+     */
+    private  static void syn(){
+
+        Object obj = new Object();
+        System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+        synchronized (obj){
+            //mw 发生变化
+            System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+        }
     }
 }
