@@ -747,3 +747,45 @@ public class CacheLinePadding {
 &nbsp; &nbsp;下面详细分析一下NUMA技术的特点。首先，NUMA架构中引入了一个重要的新名词——Node，一个Node由一个或者多个Socket组成，即物理上的一个或多个CPU芯片组成一个逻辑上的Node。如下所示为来自Dell PowerEdge系统服务器的说明手册中的NUMA的图片，4个Intel Xeon E 5-4600处理器形成4个独立的NUMA Node，由于每个Intel Xeon E 5-4600为8Core，支持双线程，所以每个Node里的Logic CPU数量为16个，占每个Node分配系统总内存1/4，每个Node之间通过Intel QPI（QuickPath Interconnect）技术形成了点到点的全互连处理器系统。
 
 ![1566383334597](https://gitee.com/MysticalYu/pic/raw/master/hexo/srqxnc_7.png)
+
+## 指令重排序
+证明指令重排序的代码例子；
+```java
+
+/**
+ * @author ycc
+ * @time 15:57
+ * 证明语句乱序的例子(语句乱序-->指令乱序)
+ * 假设不存在语句重排序(指令重排序)，那么 就不会出现 x=0,y=0的情况，也就是循环不会退出。
+ * 经测试 本人机子第  第290042次( x= 0 y = 0)
+ */
+public class OutOfOrder {
+
+    private static int a,b;
+    private static int x,y;
+    public static void main(String[] args) throws InterruptedException {
+        int i=0;
+        while (true){
+            i++;
+            a=0;b=0;
+            x=0;y=0;
+            Thread t1= new Thread(()->{
+                a=1;
+                x=b;
+            });
+            Thread t2= new Thread(()->{
+                b=1;
+                y=a;
+            });
+            t1.start();t2.start();
+            t1.join();t2.join();
+            String result = "第"+i+"次( x= "+x+"， y = "+y+")";
+            if(x==0&&y==0){
+                System.out.println(result);
+                break;
+            }
+        }
+    }
+}
+
+```
