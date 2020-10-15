@@ -12,5 +12,5 @@ import java.nio.ByteBuffer;
  */
 public class TestDirectByteBuffer {
         ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
-        ThreadLocal<Integer> testThread = new ThreadLocal<>();
+        ThreadLocal<Integer> testThread = ThreadLocal.withInitial(() -> 0);
 }
