@@ -1,4 +1,4 @@
-package design;
+package design.polymorphic;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
