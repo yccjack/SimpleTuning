@@ -22,4 +22,8 @@ public class LoadClass {
         Class<?> leftClass = classLoaderLeft.loadClass(clazz.getName());
         return (T) leftClass.newInstance();
     }
+
+    public void test(){
+        long l=123;
+    }
 }
