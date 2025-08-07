@@ -11,6 +11,7 @@ import java.util.HashMap;
 /**
  * @author MysticalYcc
  * @date 14:29
+ * jdk9以上使用 vm参数 --add-exports java.base/sun.misc=ALL-UNNAMED
  */
 public class OffsetVo {
     public int a = 0;
